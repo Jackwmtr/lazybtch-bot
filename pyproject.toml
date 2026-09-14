@@ -1,0 +1,37 @@
+[project]
+name = "lazybtch-bot"
+version = "0.1.0"
+description = "Telegram voice transcription bot (Groq whisper-large-v3-turbo), per-user API keys"
+requires-python = ">=3.11,<3.14"
+dependencies = [
+    "aiogram>=2.25,<3",
+    "httpx>=0.27",
+    "cryptography>=42",
+    "loguru>=0.7",
+    "pydantic-settings>=2",
+]
+
+[project.scripts]
+lazybtch = "lazybtch.__main__:main"
+
+[dependency-groups]
+dev = [
+    "pytest>=8",
+    "pytest-asyncio>=0.23",
+]
+
+[tool.uv]
+# aiogram 2.x pins aiohttp <3.9 (no cp312 wheels, broken build); long polling
+# only uses ClientSession, so newer aiohttp is compatible.
+override-dependencies = ["aiohttp>=3.11"]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/lazybtch"]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]

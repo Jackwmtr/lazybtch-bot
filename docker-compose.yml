@@ -1,0 +1,9 @@
+services:
+  lazybtch:
+    build: .
+    container_name: lazybtch-bot
+    restart: always
+    env_file: .env               # BOT_TOKEN, ENCRYPTION_KEY, GROUP_POLICY
+    volumes:
+      - ./data:/app/data          # SQLite (users, transcripts, events)
+    # ports: [] — long polling, nothing exposed to the outside
